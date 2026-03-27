@@ -356,24 +356,6 @@ export default function SymptomSimulator({ data }) {
             </div>
           )}
 
-          {/* Formula explanation */}
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-4">
-            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">
-              계산 방법
-            </h4>
-            <div className="text-[9px] text-slate-500 space-y-1.5">
-              <div className="bg-slate-50 p-2 rounded-lg font-mono text-center text-slate-700 font-bold">
-                P(B|A) = (1 + avg_r) / 2
-              </div>
-              <p><strong>avg_r:</strong> 선택된 증상들과의 평균 상관계수</p>
-              <p><strong>50%:</strong> 영향 없음 (r=0)</p>
-              <p><strong>&gt;50%:</strong> 양의 상관 → 동반 가능성 증가</p>
-              <p><strong>&lt;50%:</strong> 음의 상관 → 동반 가능성 감소</p>
-              <p className="pt-1 border-t border-slate-100">
-                <strong>데이터:</strong> LLM({data.symptoms.length}개 증상, {data.edges.length}개 상관관계)
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
