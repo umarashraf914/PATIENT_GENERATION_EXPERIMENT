@@ -89,16 +89,18 @@ function computeConditional(corrMatrix, selectedIndices, n) {
 
   if (nSel === 0) return null;
 
-  // Build R_AA with regularization
-  const R_AA = selArr.map(i => selArr.map(j => corrMatrix[i][j] + (i === j ? 0.001 : 0)));
+  // Build R_AA with regularization (scaled by number of selected symptoms)
+  const lambda = Math.max(0.05, nSel * 0.02);
+  const R_AA = selArr.map(i => selArr.map(j => corrMatrix[i][j] + (i === j ? lambda : 0)));
   const R_AA_inv = invertMatrix(R_AA);
   if (!R_AA_inv) return null;
 
   // x_A = [1, 1, ..., 1] — "present" means 1 SD above mean
   const xA = Array(nSel).fill(1);
 
-  // weights = R_AA⁻¹ × x_A
-  const weights = R_AA_inv.map(row => row.reduce((s, v, j) => s + v * xA[j], 0));
+  // weights = R_AA⁻¹ × x_A, clamped for numerical stability
+  const rawWeights = R_AA_inv.map(row => row.reduce((s, v, j) => s + v * xA[j], 0));
+  const weights = rawWeights.map(w => Math.max(-3, Math.min(3, w)));
 
   // For each unselected symptom, compute conditional
   const results = [];
