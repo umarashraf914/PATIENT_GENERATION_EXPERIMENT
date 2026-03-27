@@ -1,10 +1,11 @@
 import React, { useState, useCallback } from 'react';
-import { Network, Bot, RefreshCw, Zap } from 'lucide-react';
+import { Network, Bot, Zap, BarChart3 } from 'lucide-react';
 import ModelExtractionTab from './components/ModelExtractionTab';
 import SymptomSimulator from './components/SymptomSimulator';
+import NaiveSimulator from './components/NaiveSimulator';
 
 export default function App() {
-  const [activeView, setActiveView] = useState('extraction'); // 'extraction' | 'simulator'
+  const [activeView, setActiveView] = useState('extraction'); // 'extraction' | 'gaussian' | 'naive'
   const [extractedData, setExtractedData] = useState(null);
 
   const handleDataExtracted = useCallback((symptoms, edges) => {
@@ -31,7 +32,6 @@ export default function App() {
             </div>
           </div>
           <div className="flex gap-2">
-            {/* View toggle */}
             <div className="flex bg-slate-100 rounded-lg p-0.5">
               <button onClick={() => setActiveView('extraction')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
@@ -39,23 +39,33 @@ export default function App() {
                 }`}>
                 <Bot className="w-3.5 h-3.5" /> 모델 추출
               </button>
-              <button onClick={() => setActiveView('simulator')}
+              <button onClick={() => setActiveView('gaussian')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
-                  activeView === 'simulator' ? 'bg-white shadow text-slate-800' : 'text-slate-400'
+                  activeView === 'gaussian' ? 'bg-white shadow text-indigo-600' : 'text-slate-400'
                 }`}>
-                <Zap className="w-3.5 h-3.5" /> 시뮬레이터
+                <Zap className="w-3.5 h-3.5" /> Gaussian
+              </button>
+              <button onClick={() => setActiveView('naive')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
+                  activeView === 'naive' ? 'bg-white shadow text-orange-600' : 'text-slate-400'
+                }`}>
+                <BarChart3 className="w-3.5 h-3.5" /> Naive
               </button>
             </div>
           </div>
         </header>
 
-        {/* Main Content — both views stay mounted, hidden via CSS to preserve state */}
+        {/* Main Content — all views stay mounted, hidden via CSS to preserve state */}
         <div style={{ display: activeView === 'extraction' ? 'block' : 'none' }}>
           <ModelExtractionTab onDataExtracted={handleDataExtracted} />
         </div>
 
-        <div style={{ display: activeView === 'simulator' ? 'block' : 'none' }}>
+        <div style={{ display: activeView === 'gaussian' ? 'block' : 'none' }}>
           <SymptomSimulator data={extractedData} />
+        </div>
+
+        <div style={{ display: activeView === 'naive' ? 'block' : 'none' }}>
+          <NaiveSimulator data={extractedData} />
         </div>
 
         {/* Footer */}
