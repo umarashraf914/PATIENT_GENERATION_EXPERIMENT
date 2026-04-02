@@ -546,6 +546,24 @@ export default function ModelExtractionTab({ onDataExtracted }) {
                 {interactiveMode && <span className="text-amber-500 font-bold">드래그로 r값 조정 중 · r = 1 - (d/scale)²/2</span>}
               </div>
             </div>
+
+            {/* Raw Gemini output */}
+            {rawResponse && (
+              <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mt-3">
+                <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                  <h3 className="text-sm font-bold flex items-center gap-2 text-slate-700">
+                    <Eye className="w-4 h-4 text-slate-400" />
+                    Gemini 원본 응답
+                  </h3>
+                  <span className="text-[9px] text-slate-400 font-mono">
+                    {rawResponse.length.toLocaleString()} chars
+                  </span>
+                </div>
+                <pre className="px-4 py-3 text-[10px] font-mono text-slate-600 whitespace-pre-wrap max-h-[400px] overflow-y-auto bg-slate-50 leading-relaxed">
+                  {rawResponse}
+                </pre>
+              </div>
+            )}
           </div>
 
           {/* Detail panel */}
@@ -668,17 +686,6 @@ export default function ModelExtractionTab({ onDataExtracted }) {
         </div>
       )}
 
-      {/* Raw response (collapsible) */}
-      {rawResponse && (
-        <details className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-          <summary className="px-4 py-3 text-[10px] font-bold text-slate-400 cursor-pointer hover:bg-slate-50">
-            모델 원본 응답 보기 (디버그)
-          </summary>
-          <pre className="px-4 pb-4 text-[9px] font-mono text-slate-500 whitespace-pre-wrap max-h-[300px] overflow-y-auto">
-            {rawResponse}
-          </pre>
-        </details>
-      )}
     </div>
   );
 }
