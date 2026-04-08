@@ -1,0 +1,130 @@
+{
+  "diseases": {
+    "allergic_rhinitis": {
+      "key": "allergic_rhinitis",
+      "name_ko": "알레르기 비염",
+      "name_en": "Allergic Rhinitis",
+      "syndromes": [
+        "general",
+        "syndrome_1",
+        "syndrome_2",
+        "syndrome_3",
+        "syndrome_4",
+        "syndrome_5"
+      ],
+      "syndrome_names": {
+        "general": "일반 알레르기 비염 환자 생성 규칙 및 비율",
+        "syndrome_1": "월비가반하탕증형 생성 규칙 및 비율",
+        "syndrome_2": "사간마황탕증형 생성 규칙 및 비율",
+        "syndrome_3": "소청룡탕증형 생성 규칙 및 비율",
+        "syndrome_4": "영강감미신하인탕증형 생성 규칙 및 비율",
+        "syndrome_5": "마황부자세신탕증형 생성 규칙 및 비율"
+      },
+      "metadata": {
+        "source_file": "Allergic_Rhinitis.xlsx",
+        "total_sections": 12,
+        "total_subcategories": 64,
+        "total_variables": 193,
+        "total_options": 923,
+        "total_syndromes": 6
+      }
+    },
+    "common_cold": {
+      "key": "common_cold",
+      "name_ko": "감기",
+      "name_en": "Common Cold",
+      "syndromes": [
+        "general",
+        "syndrome_1",
+        "syndrome_2"
+      ],
+      "syndrome_names": {
+        "general": "급성상기도감염(감기)환자 생성 규칙 및 비율",
+        "syndrome_1": "풍한형 감기환자 생성 비율",
+        "syndrome_2": "풍열형 감기환자 생성 비율"
+      },
+      "metadata": {
+        "source_file": "Common_Cold.xlsx",
+        "total_sections": 12,
+        "total_subcategories": 62,
+        "total_variables": 202,
+        "total_options": 938,
+        "total_syndromes": 3
+      }
+    },
+    "functional_dyspepsia": {
+      "key": "functional_dyspepsia",
+      "name_ko": "기능성 소화불량",
+      "name_en": "Functional Dyspepsia",
+      "syndromes": [
+        "general",
+        "syndrome_1",
+        "syndrome_2",
+        "syndrome_3",
+        "syndrome_4",
+        "syndrome_5",
+        "syndrome_6",
+        "syndrome_7",
+        "syndrome_8",
+        "syndrome_9"
+      ],
+      "syndrome_names": {
+        "general": "일반 생성 규칙 및 비율",
+        "syndrome_1": "한증",
+        "syndrome_2": "열증",
+        "syndrome_3": "기허",
+        "syndrome_4": "양허",
+        "syndrome_5": "음허",
+        "syndrome_6": "담음(습)",
+        "syndrome_7": "식적",
+        "syndrome_8": "어혈",
+        "syndrome_9": "기체"
+      },
+      "metadata": {
+        "source_file": "Functional_Dyspepsia.xlsx",
+        "total_sections": 12,
+        "total_subcategories": 58,
+        "total_variables": 191,
+        "total_options": 918,
+        "total_syndromes": 10
+      }
+    },
+    "lower_back_pain": {
+      "key": "lower_back_pain",
+      "name_ko": "요통",
+      "name_en": "Lower Back Pain",
+      "syndromes": [
+        "general",
+        "syndrome_1",
+        "syndrome_2",
+        "syndrome_3",
+        "syndrome_4",
+        "syndrome_5",
+        "syndrome_6",
+        "syndrome_7",
+        "syndrome_8",
+        "syndrome_9"
+      ],
+      "syndrome_names": {
+        "general": "일반요통환자 생성 규칙 및 비율",
+        "syndrome_1": "한증",
+        "syndrome_2": "열증",
+        "syndrome_3": "기허",
+        "syndrome_4": "양허",
+        "syndrome_5": "음허",
+        "syndrome_6": "담음(습)",
+        "syndrome_7": "식적",
+        "syndrome_8": "어혈",
+        "syndrome_9": "기체"
+      },
+      "metadata": {
+        "source_file": "Lower_Back_Pain.xlsx",
+        "total_sections": 12,
+        "total_subcategories": 62,
+        "total_variables": 191,
+        "total_options": 910,
+        "total_syndromes": 10
+      }
+    }
+  }
+}

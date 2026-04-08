@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
-import { Network, Bot, Zap, BarChart3 } from 'lucide-react';
+import { Network, Bot, Zap, BarChart3, Stethoscope } from 'lucide-react';
 import ModelExtractionTab from './components/ModelExtractionTab';
 import SymptomSimulator from './components/SymptomSimulator';
 import NaiveSimulator from './components/NaiveSimulator';
+import DiseaseSimulatorTab from './components/DiseaseSimulatorTab';
 
 export default function App() {
-  const [activeView, setActiveView] = useState('extraction'); // 'extraction' | 'gaussian' | 'naive'
+  const [activeView, setActiveView] = useState('extraction'); // 'extraction' | 'gaussian' | 'naive' | 'disease'
   const [extractedData, setExtractedData] = useState(null);
 
   const handleDataExtracted = useCallback((symptoms, edges) => {
@@ -26,9 +27,6 @@ export default function App() {
               <h1 className="text-lg font-bold text-slate-900 tracking-tight">
                 TKM Symptom Correlation Explorer
               </h1>
-              <p className="text-slate-500 text-[10px] font-medium">
-                LLM 모델 지식 추출 & 한의사 검증 · 증상 상관관계 네트워크 · 합성 환자 생성 연구 도구
-              </p>
             </div>
           </div>
           <div className="flex gap-2">
@@ -51,6 +49,12 @@ export default function App() {
                 }`}>
                 <BarChart3 className="w-3.5 h-3.5" /> Naive
               </button>
+              <button onClick={() => setActiveView('disease')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
+                  activeView === 'disease' ? 'bg-white shadow text-teal-600' : 'text-slate-400'
+                }`}>
+                <Stethoscope className="w-3.5 h-3.5" /> 질환 DB
+              </button>
             </div>
           </div>
         </header>
@@ -68,12 +72,10 @@ export default function App() {
           <NaiveSimulator data={extractedData} />
         </div>
 
-        {/* Footer */}
-        <footer className="bg-slate-900 p-3 rounded-2xl text-center">
-          <p className="text-[9px] font-bold tracking-widest uppercase text-slate-500">
-            TKM Symptom Correlation Explorer · 400-Patient Chart Review Data · Research Tool for Expert Validation
-          </p>
-        </footer>
+        {activeView === 'disease' && (
+          <DiseaseSimulatorTab />
+        )}
+
       </div>
     </div>
   );

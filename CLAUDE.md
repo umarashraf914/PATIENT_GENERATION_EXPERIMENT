@@ -1,24 +1,57 @@
-<!-- VERCEL BEST PRACTICES START -->
-## Best practices for developing on Vercel
+# CLAUDE.md
 
-These defaults are optimized for AI coding agents (and humans) working on apps that deploy to Vercel.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-- Treat Vercel Functions as stateless + ephemeral (no durable RAM/FS, no background daemons), use Blob or marketplace integrations for preserving state
-- Edge Functions (standalone) are deprecated; prefer Vercel Functions
-- Don't start new projects on Vercel KV/Postgres (both discontinued); use Marketplace Redis/Postgres instead
-- Store secrets in Vercel Env Variables; not in git or `NEXT_PUBLIC_*`
-- Provision Marketplace native integrations with `vercel integration add` (CI/agent-friendly)
-- Sync env + project settings with `vercel env pull` / `vercel pull` when you need local/offline parity
-- Use `waitUntil` for post-response work; avoid the deprecated Function `context` parameter
-- Set Function regions near your primary data source; avoid cross-region DB/service roundtrips
-- Tune Fluid Compute knobs (e.g., `maxDuration`, memory/CPU) for long I/O-heavy calls (LLMs, APIs)
-- Use Runtime Cache for fast **regional** caching + tag invalidation (don't treat it as global KV)
-- Use Cron Jobs for schedules; cron runs in UTC and triggers your production URL via HTTP GET
-- Use Vercel Blob for uploads/media; Use Edge Config for small, globally-read config
-- If Enable Deployment Protection is enabled, use a bypass secret to directly access them
-- Add OpenTelemetry via `@vercel/otel` on Node; don't expect OTEL support on the Edge runtime
-- Enable Web Analytics + Speed Insights early
-- Use AI Gateway for model routing, set AI_GATEWAY_API_KEY, using a model string (e.g. 'anthropic/claude-sonnet-4.6'), Gateway is already default in AI SDK
-  needed. Always curl https://ai-gateway.vercel.sh/v1/models first; never trust model IDs from memory
-- For durable agent loops or untrusted code: use Workflow (pause/resume/state) + Sandbox; use Vercel MCP for secure infra access
-<!-- VERCEL BEST PRACTICES END -->
+## What This Project Is
+
+A client-side React research tool for exploring symptom correlations in Traditional Korean Medicine (TKM). It lets researchers:
+1. Extract symptom correlation matrices from LLMs (Gemini API called directly from the browser)
+2. Simulate conditional symptom probabilities using two models side-by-side (Multivariate Gaussian vs Naive Average)
+
+The app is a pure SPA with no backend. All computation (matrix inversion, Gaussian conditionals, force-directed layout) happens in-browser.
+
+## Commands
+
+```bash
+npm run dev      # Start Vite dev server with HMR
+npm run build    # Production build to dist/
+npm run preview  # Serve the production build locally
+npm run lint     # ESLint (flat config, React hooks + refresh rules)
+```
+
+No test framework is configured.
+
+## Architecture
+
+**Data flow:** `ModelExtractionTab` extracts `{symptoms[], edges[]}` from an LLM → passes up to `App` via `onDataExtracted` → flows down to both `SymptomSimulator` (Gaussian) and `NaiveSimulator` (Naive) tabs. All three tabs stay mounted (hidden via CSS `display`) to preserve state when switching.
+
+**Core data structures:**
+- `symptoms`: string array of `"한국어 (English)"` formatted names — indices are the primary identifiers throughout
+- `edges`: `{a, b, r, note_ko, note_en}` — `a`/`b` are symptom indices, `r` is correlation coefficient
+- Hardcoded reference data lives in `src/data/symptomNetwork.js`: 38 symptoms, 51 correlations from a 400-patient chart review, plus Bagang (Eight Principles) associations
+
+**Key math in SymptomSimulator (Gaussian tab):**
+- Builds full NxN correlation matrix from sparse edges
+- Given selected symptoms A, computes P(B|A) via: `R_AA` inversion (Gauss-Jordan), conditional mean/variance, then `normalCDF(mu/sigma)`
+- Regularization parameter `lambda` scales with number of selected symptoms to stabilize the matrix inverse
+- Each symptom row is expandable to show the full computation breakdown (contributions table, conditional distribution, bell curve SVG)
+
+**NaiveSimulator** uses simple `P = (1 + avg_r) / 2` for comparison — intentionally limited to demonstrate why the Gaussian approach is better.
+
+**ModelExtractionTab** calls Gemini API directly (`generativelanguage.googleapis.com`), parses JSON from LLM response with regex fallback for truncated outputs, and includes a force-directed graph layout with draggable nodes.
+
+## Tech Stack
+
+- React 19 (JSX, no TypeScript)
+- Vite 8 with `@vitejs/plugin-react`
+- Tailwind CSS v4 (via `@tailwindcss/vite` plugin, imported as `@import "tailwindcss"` in index.css)
+- lucide-react for icons
+- No routing library, no state management library — just React useState/useMemo/useCallback
+
+## Conventions
+
+- UI text is bilingual Korean/English. Korean is primary for labels; English in parentheses. Use the pattern `한국어 (English)` for symptom names.
+- Symptom names are parsed with regex: `getKorean(s)` extracts text before the first space/paren, `getEnglish(s)` extracts the parenthesized portion.
+- Tailwind classes use very small text sizes (`text-[8px]`, `text-[9px]`, `text-[10px]`) for information-dense panels.
+- SVG is used for all visualizations (circular network, bell curves) — no charting library.
+- The Gemini API key can be set via `VITE_GEMINI_API_KEY` env var or entered in the UI at runtime.

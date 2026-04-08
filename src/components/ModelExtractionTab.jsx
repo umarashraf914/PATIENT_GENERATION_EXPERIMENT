@@ -31,7 +31,7 @@ IMPORTANT: Return ONLY a valid JSON array. Each element should be:
 For note_ko, use proper Traditional Korean Medicine (한의학) terminology (e.g. 비기허로 인한 식욕부진과 설사 동반, 간양상항으로 두통과 어지러움 동반).
 For note_en, provide the English clinical explanation.
 
-Only include pairs where |r| >= 0.15 (skip near-zero correlations to keep it manageable).
+Only include pairs where |r| >= 0.10 (skip near-zero correlations to keep it manageable).
 Use 0-based indices for symptoms.
 Return ONLY the JSON array, no other text.`;
 
