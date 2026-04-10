@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(vercel --version)",
-      "Bash(npm i:*)"
+      "Bash(npm i:*)",
+      "Bash(node -e ':*)",
+      "Bash(python -c \"import json; d=json.load\\(open\\('C:/Users/KIOM_User/My Drive/Jupter_Projects/patient-generation-engine/data/diseases/horizontal_syndrome_probs/common_cold_syndrome_probs.json'\\)\\); print\\(list\\(d.keys\\(\\)\\)\\); print\\('variables[0] keys:', list\\(d['variables'][0].keys\\(\\)\\)\\); print\\('options[0] keys:', list\\(d['variables'][0]['options'][0].keys\\(\\)\\)\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('C:/Users/KIOM_User/My Drive/Jupter_Projects/patient-generation-engine/data/diseases/horizontal_syndrome_probs/common_cold_syndrome_probs.json', encoding='utf-8'\\)\\); print\\(list\\(d.keys\\(\\)\\)\\); print\\('variables[0] keys:', list\\(d['variables'][0].keys\\(\\)\\)\\); print\\('options[0] keys:', list\\(d['variables'][0]['options'][0].keys\\(\\)\\)\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('C:/Users/KIOM_User/My Drive/Jupter_Projects/Patient_Generation_Experiment/public/data/diseases/normalized_general_probs/common_cold_normalized_general.json', encoding='utf-8'\\)\\); print\\(list\\(d.keys\\(\\)\\)\\); print\\('variables[0] keys:', list\\(d['variables'][0].keys\\(\\)\\)\\); print\\('options[0] keys:', list\\(d['variables'][0]['options'][0].keys\\(\\)\\)\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('C:/Users/KIOM_User/My Drive/Jupter_Projects/Patient_Generation_Experiment/public/data/diseases/index.json', encoding='utf-8'\\)\\); print\\(json.dumps\\(d, indent=2, ensure_ascii=False\\)[:1000]\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('C:/Users/KIOM_User/My Drive/Jupter_Projects/Patient_Generation_Experiment/public/data/diseases/index.json', encoding='utf-8'\\)\\); print\\(json.dumps\\(d, indent=2, ensure_ascii=False\\)[:1500]\\)\")"
     ]
   }
 }
