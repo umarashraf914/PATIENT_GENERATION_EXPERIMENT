@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import { Network, Bot, Zap, BarChart3, Stethoscope } from 'lucide-react';
+import { Network, Bot, Zap, BarChart3, Stethoscope, Grid3X3 } from 'lucide-react';
 import ModelExtractionTab from './components/ModelExtractionTab';
 import SymptomSimulator from './components/SymptomSimulator';
 import NaiveSimulator from './components/NaiveSimulator';
 import DiseaseSimulatorTab from './components/DiseaseSimulatorTab';
+import AverageMatrixEditorTab from './components/AverageMatrixEditorTab';
 
 export default function App() {
-  const [activeView, setActiveView] = useState('extraction'); // 'extraction' | 'gaussian' | 'naive' | 'disease'
+  const [activeView, setActiveView] = useState('extraction'); // 'extraction' | 'average' | 'gaussian' | 'naive' | 'disease'
   const [extractedData, setExtractedData] = useState(null);
 
   const handleDataExtracted = useCallback((symptoms, edges) => {
@@ -37,6 +38,12 @@ export default function App() {
                 }`}>
                 <Bot className="w-3.5 h-3.5" /> 모델 추출
               </button>
+              <button onClick={() => setActiveView('average')}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
+                  activeView === 'average' ? 'bg-white shadow text-blue-600' : 'text-slate-400'
+                }`}>
+                <Grid3X3 className="w-3.5 h-3.5" /> 평균 행렬
+              </button>
               <button onClick={() => setActiveView('gaussian')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[11px] font-bold transition-all ${
                   activeView === 'gaussian' ? 'bg-white shadow text-indigo-600' : 'text-slate-400'
@@ -66,6 +73,10 @@ export default function App() {
 
         <div style={{ display: activeView === 'gaussian' ? 'block' : 'none' }}>
           <SymptomSimulator data={extractedData} />
+        </div>
+
+        <div style={{ display: activeView === 'average' ? 'block' : 'none' }}>
+          <AverageMatrixEditorTab onDataApplied={handleDataExtracted} />
         </div>
 
         <div style={{ display: activeView === 'naive' ? 'block' : 'none' }}>
